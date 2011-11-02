@@ -41,6 +41,7 @@ BEGIN {
 				end_time[packet_id] = time;
 				size[packet_id] = $6;
 				recvdSize += $6;
+				acum[packet_id] = recvdSize;
 			}
 		}
 	}
@@ -64,7 +65,7 @@ END {
 				jitter = old_delay - delay;
 			}
 			# Colunas impressas no arquivo de saída
-			printf("%f %f %f %f %s %i %i %i %i %i %i %f\n", end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados, ((recvdSize * 8) /1000) / time);
+			printf("%f %f %f %f %s %i %i %i %i %i %i %f\n", end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados, ((acum[packet_id] * 8)/1000) / time);
 		}
 	}
 }

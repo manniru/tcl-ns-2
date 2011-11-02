@@ -13,8 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 1024
-
+set packetSize 7184
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -29,7 +28,7 @@ set packetSize 1024
 # cbrPacketSize: Tamanho dos pacotes
 # maxPackets: Numero maximo de pacotes gerados pela fonte (FTP)
 
-set rate 5000kb
+set rate 1000kb
 #set interval 0.005
 #set cbrPacketSize 500
 #set maxPackets 10000
