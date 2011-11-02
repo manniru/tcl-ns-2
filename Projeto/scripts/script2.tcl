@@ -13,7 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 2048
+set packetSize 512
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -64,11 +64,10 @@ proc finish {} {
 }
 
 # Topology
-#               n0 (udp) (cbr)
-# 2mbps, 10ms    \                           
-#                 \     1.7 mbps, 20ms    
-#                 n1 ----------------- n2  (Null) - Receiver UDP
-#
+#                         
+#             2 mbps, 100ms    
+#         n0 ----------------- n1  (Null) - Receiver UDP
+#			  (udp) (cbr)
 #   +cbr                                  -cbr
 #  +--------+---------+----------+---------+-----+ (s)
 #  0        10       20         30        40    45   
@@ -78,22 +77,15 @@ proc finish {} {
 #Create nodes
 set n0 [$ns node]
 set n1 [$ns node]
-set n2 [$ns node]
+
 
 #Create links ($ns duplex-link node1 node2 bandwidth delay queue-type)
-$ns duplex-link $n0 $n1 2.0Mb 10ms DropTail
-$ns duplex-link $n1 $n2 1.7Mb 20ms DropTail
-
-
-$ns duplex-link-op $n0 $n1 orient right-down
-$ns duplex-link-op $n1 $n2 orient right
+$ns duplex-link $n0 $n1 2.0Mb 100ms DropTail
+$ns duplex-link-op $n0 $n1 orient right
 
 
 #Tamanho da Fila (n1-n2) ($ns queue-limit node1 node2 number)
-$ns queue-limit $n1 $n2 10
-
-#Monitor da fila (n2-n3)
-$ns duplex-link-op $n1 $n2 queuePos 0.5
+# $ns queue-limit $n1 $n2 10
 
 #Transport
 set udp [new Agent/UDP]
@@ -102,7 +94,7 @@ $udp set fid_ 1
 # $udp set ttl_ $ttl
 
 set recv [new Agent/Null]
-$ns attach-agent $n2 $recv
+$ns attach-agent $n1 $recv
 
 $ns connect $udp $recv
 
@@ -117,14 +109,14 @@ $cbr set packetSize_ $packetSize
 
 #Programando eventos
 $ns at 0.1 "$cbr start"
-$ns at 10.0 "$cbr stop"
+$ns at 40.0 "$cbr stop"
 
 
 #desligar agentes Tcp e Sink
 #$ns at 10.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n2 $sink"
 
 #chamar metodo finish
-$ns at 12 "finish"
+$ns at 42 "finish"
 
 #Executar simulacao
 $ns run

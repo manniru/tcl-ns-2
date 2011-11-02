@@ -13,7 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 512
+set packetSize 725
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -45,7 +45,7 @@ set tr [open out.tr w]
 $ns trace-all $tr
 
 # diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
-set nf [open out.nam w]
+#set nf [open out.nam w]
 #$ns namtrace-all $nf
 
 
@@ -65,7 +65,7 @@ proc finish {} {
 
 # Topology
 #               
-#                  2 mbps, 20ms    
+#                  2 mbps, 100ms    
 #            n0 ----------------- n2  (sink) - Receiver TCP
 #           (tcp) (ftp)
 #   ++ftp                                 -ftp
@@ -79,7 +79,7 @@ set n0 [$ns node]
 set n1 [$ns node]
 
 #Create links ($ns duplex-link node1 node2 bandwidth delay queue-type)
-$ns duplex-link $n0 $n1 2.0Mb 10ms DropTail
+$ns duplex-link $n0 $n1 2.0Mb 100ms DropTail
 
 $ns duplex-link-op $n0 $n1 orient right
 
@@ -117,14 +117,14 @@ $ftp set maxpkts_ $maxPackets
 
 #Programando eventos
 $ns at 0.1 "$ftp start"
-$ns at 10.0 "$ftp stop"
+$ns at 40.0 "$ftp stop"
 
 
 #desligar agentes Tcp e Sink
-$ns at 20.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n1 $sink"
+$ns at 50.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n1 $sink"
 
 #chamar metodo finish
-$ns at 20 "finish"
+$ns at 50 "finish"
 
 #Executar simulacao
 $ns run

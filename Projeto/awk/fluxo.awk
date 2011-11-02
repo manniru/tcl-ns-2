@@ -4,7 +4,7 @@
 # exemplo:
 # awk -f fluxo.awk -v FID=1 out.tr > fluxo.tr
 #
-# Dados: end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id
+# Dados: end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados, 
 # 
 #
 BEGIN {

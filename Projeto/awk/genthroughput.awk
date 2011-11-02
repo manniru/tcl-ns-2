@@ -3,6 +3,8 @@ BEGIN {
        startTime = 400
        stopTime = 0
        id = 0
+       printf("%.4f, %.2f\n",0, 0)
+       
   }
    
   {
@@ -12,14 +14,14 @@ BEGIN {
              pkt_size = $6
    
   # Store start time
-  if (event == "+" && pkt_size >= 512) {
+  if (event == "+") {
     if (time < startTime) {
              startTime = time
              }
        }
    
   # Update total received packets' size and store packets arrival time
-  if (event == "r" && pkt_size >= 512) {
+  if (event == "r") {
        if (time > stopTime) {
              stopTime = time
              }
@@ -29,8 +31,13 @@ BEGIN {
        # Store received packet's size
        recvdSize += pkt_size
        }
-      id += 1
-      printf("%i, %.2f\n",id, (recvdSize/(stopTime-startTime))*(8/1000))
+     # id += 1
+     
+       if(stopTime-startTime > 0){
+ 		printf("%.4f, %.2f\n",time, (recvdSize/(stopTime-startTime))*(8/1000))
+       } else {
+         printf("%.4f, %.2f\n",time, 0)
+       }
   }
    
   END {

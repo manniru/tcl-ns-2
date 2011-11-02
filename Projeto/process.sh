@@ -1,5 +1,9 @@
 #!/bin/bash
 
+PROTOCOL=TCP
+SIZE=725
+CONF=$PROTOCOL_$SIZE
+
 #rm out*
 ns scripts/script1.tcl
 clear
@@ -10,3 +14,11 @@ awk -f genthroughput_sum.awk out.tr >> report.txt
 cat report.txt
 cat report.txt >> sumarize.txt
 echo '------' >> sumarize.txt
+
+# 
+awk -f awk/fluxo.awk -v FID=1 out.tr | awk '{print $5" "$2}' > delay_pacotes_tempo_$CONF.txt
+mv delay_pacotes_tempo_$CONF.txt dados/
+
+# Tempo X Taxa Transmissao
+awk -f awk/genthroughput.awk out.tr > banda_tempo_$CONF.txt
+mv banda_tempo_$CONF.txt dados/
