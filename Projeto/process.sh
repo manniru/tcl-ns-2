@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #rm out*
-ns scripts/script2.tcl
+ns scripts/script1.tcl
 clear
 #echo Número Total de Pacotes Enviados `cat out.tr | grep ^+ | wc -l` > report.txt
 awk -f fluxo_sum.awk -v FID=1 out.tr > report.txt

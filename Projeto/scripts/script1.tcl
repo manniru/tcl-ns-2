@@ -46,29 +46,28 @@ $ns trace-all $tr
 
 # diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
 set nf [open out.nam w]
-$ns namtrace-all $nf
+#$ns namtrace-all $nf
 
 
 #Finish procedure
 proc finish {} {
 	global ns tr
-	global nf
+#	global nf
 	$ns flush-trace
 	
-	close $nf
+#	close $nf
 	close $tr
 	
 	#Executa animador
-	exec nam out.nam &
+#	exec nam out.nam &
 	exit 0
 }
 
 # Topology
-#               n0 (tcp) (ftp)
-# 2mbps, 10ms    \                           
-#                 \     1.7 mbps, 20ms    
-#                 n1 ----------------- n2  (sink) - Receiver TCP
-#
+#               
+#                  2 mbps, 20ms    
+#            n0 ----------------- n2  (sink) - Receiver TCP
+#           (tcp) (ftp)
 #   ++ftp                                 -ftp
 #  +--------+---------+----------+---------+-----+ (s)
 #  0        10       20         30        40    45   
@@ -78,22 +77,15 @@ proc finish {} {
 #Create nodes
 set n0 [$ns node]
 set n1 [$ns node]
-set n2 [$ns node]
 
 #Create links ($ns duplex-link node1 node2 bandwidth delay queue-type)
 $ns duplex-link $n0 $n1 2.0Mb 10ms DropTail
-$ns duplex-link $n1 $n2 1.7Mb 20ms DropTail
 
-
-$ns duplex-link-op $n0 $n1 orient right-down
-$ns duplex-link-op $n1 $n2 orient right
+$ns duplex-link-op $n0 $n1 orient right
 
 
 #Tamanho da Fila (n1-n2) ($ns queue-limit node1 node2 number)
-$ns queue-limit $n1 $n2 10
-
-#Monitor da fila (n2-n3)
-$ns duplex-link-op $n1 $n2 queuePos 0.5
+#$ns queue-limit $n1 $n2 10
 
 #Setup TCP
 set tcp [new Agent/TCP]
@@ -111,7 +103,7 @@ $ns attach-agent $n0 $tcp
 #Agente n3 (receiver)
 set sink [new Agent/TCPSink]
 # $ns attach-agent node agent
-$ns attach-agent $n2 $sink
+$ns attach-agent $n1 $sink
 #Conexao entre eles ($ns connect agent1 agent2)
 $ns connect $tcp $sink
 
@@ -129,10 +121,10 @@ $ns at 10.0 "$ftp stop"
 
 
 #desligar agentes Tcp e Sink
-$ns at 10.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n2 $sink"
+$ns at 20.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n1 $sink"
 
 #chamar metodo finish
-$ns at 12 "finish"
+$ns at 20 "finish"
 
 #Executar simulacao
 $ns run
