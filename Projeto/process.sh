@@ -1,11 +1,15 @@
 #!/bin/bash
 
 PROTOCOL=TCP
-SIZE=512
+SIZE=4096
 CONF=$PROTOCOL_$SIZE
+FILE=scripts/script1.tcl
+
+sed -i 16d $FILE
+sed -i "16s/^/set packetSize $SIZE\n/" $FILE
 
 #rm out*
-ns scripts/script1.tcl
+ns $FILE
 clear
 #echo Número Total de Pacotes Enviados `cat out.tr | grep ^+ | wc -l` > report.txt
 awk -f fluxo_sum.awk -v FID=1 out.tr > report.txt

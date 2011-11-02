@@ -13,7 +13,8 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 512
+set packetSize 4096
+
 #set ttl 32
 #set windowSize 10
 #set cwnd 0

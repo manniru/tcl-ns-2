@@ -1,35 +1,54 @@
-40.202144Numero Total de Pacotes: 7775
-Delay Total: 787.13
+Numero Total de Pacotes: 7741
+Delay Total: 787.12
 Delay Médio: 0.10
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa Transmissão[kbps]: 457.92
+Taxa Transmissão[kbps]: 620.15
+Quantidade Total de Informação[Kbytes]: 3042.41
 ------
-40.202144Numero Total de Pacotes: 7775
-Delay Total: 787.13
+Numero Total de Pacotes: 7683
+Delay Total: 786.00
 Delay Médio: 0.10
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa Transmissão[kbps]: 457.92
-Quantidade Total de Informação[Kbytes]: 2247.25
+Taxa Transmissão[kbps]: 843.81
+Quantidade Total de Informação[Kbytes]: 4141.16
 ------
-40.202144Numero Total de Pacotes: 7775
-Delay Total: 787.13
+Numero Total de Pacotes: 7609
+Delay Total: 785.96
 Delay Médio: 0.10
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa Transmissão[kbps]: 457.92
-Quantidade Total de Informação[Kbytes]: 2247.25
+Taxa Transmissão[kbps]: 1196.09
+Quantidade Total de Informação[Kbytes]: 5869.53
 ------
-Numero Total de Pacotes: 7775
-Delay Total: 787.13
+Numero Total de Pacotes: 7521
+Delay Total: 785.45
 Delay Médio: 0.10
-Jitter Médio: 0.00
+Jitter Médio: 0.01
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa Transmissão[kbps]: 457.92
-Quantidade Total de Informação[Kbytes]: 2247.25
+Taxa Transmissão[kbps]: 1592.26
+Quantidade Total de Informação[Kbytes]: 7813.83
+------
+Numero Total de Pacotes: 6309
+Delay Total: 785.46
+Delay Médio: 0.12
+Jitter Médio: 0.05
+Número de Pacotes Perdidos: 0
+Porcentagem Pacotes Perdidos: 0.00
+Taxa Transmissão[kbps]: 1976.51
+Quantidade Total de Informação[Kbytes]: 9708.48
+------
+Numero Total de Pacotes: 4765
+Delay Total: 786.07
+Delay Médio: 0.16
+Jitter Médio: 0.13
+Número de Pacotes Perdidos: 0
+Porcentagem Pacotes Perdidos: 0.00
+Taxa Transmissão[kbps]: 1973.34
+Quantidade Total de Informação[Kbytes]: 9714.17
 ------
