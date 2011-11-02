@@ -14,4 +14,3 @@ proc test {} {
 	}
 }
 
-test
