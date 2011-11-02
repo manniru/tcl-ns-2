@@ -108,11 +108,11 @@ set tcp [new Agent/TCP]
 $tcp set class_ 2
 $tcp set fid_ 1
 $tcp set packetSize_ $packetSize
-$tcp set ttl_ $ttl
-$tcp set window_ $windowSize
-$tcp set cwnd_ $cwnd
-$tcp set windowInit_ $windowInit
-$tcp set maxburst_ $maxBurst
+#$tcp set ttl_ $ttl
+#$tcp set window_ $windowSize
+#$tcp set cwnd_ $cwnd
+#$tcp set windowInit_ $windowInit
+#$tcp set maxburst_ $maxBurst
 
 $ns attach-agent $n0 $tcp
 #Agente n3 (receiver)
@@ -143,7 +143,7 @@ $udp set ttl_ $ttl
 set ftp [new Application/FTP]
 $ftp attach-agent $tcp
 $ftp set type_ FTP
-$ftp set maxpkts_ $maxPackets
+#$ftp set maxpkts_ $maxPackets
 
 #Setup CBR(Constant bit-rate)  over UDP
 set cbr [new Application/Traffic/CBR]
@@ -159,8 +159,10 @@ $ns at 10.0 "$ftp start"
 $ns at 20.0 "$ftp stop"
 $ns at 30.0 "$cbr stop"
 
+puts "Taxa = [$sink set bytes_]"
 #desligar agentes Tcp e Sink
 $ns at 32.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink"
+
 
 #chamar metodo finish
 $ns at 35 "finish"

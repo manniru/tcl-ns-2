@@ -1,9 +1,35 @@
+40.202144Numero Total de Pacotes: 7775
+Delay Total: 787.13
+Delay Médio: 0.10
+Jitter Médio: 0.00
+Número de Pacotes Perdidos: 0
+Porcentagem Pacotes Perdidos: 0.00
+Taxa Transmissão[kbps]: 457.92
+------
+40.202144Numero Total de Pacotes: 7775
+Delay Total: 787.13
+Delay Médio: 0.10
+Jitter Médio: 0.00
+Número de Pacotes Perdidos: 0
+Porcentagem Pacotes Perdidos: 0.00
+Taxa Transmissão[kbps]: 457.92
+Quantidade Total de Informação[Kbytes]: 2247.25
+------
+40.202144Numero Total de Pacotes: 7775
+Delay Total: 787.13
+Delay Médio: 0.10
+Jitter Médio: 0.00
+Número de Pacotes Perdidos: 0
+Porcentagem Pacotes Perdidos: 0.00
+Taxa Transmissão[kbps]: 457.92
+Quantidade Total de Informação[Kbytes]: 2247.25
+------
 Numero Total de Pacotes: 7775
 Delay Total: 787.13
 Delay Médio: 0.10
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 400.01
-Quantidade Total de Informação[Kbytes]: 1943.50
+Taxa Transmissão[kbps]: 457.92
+Quantidade Total de Informação[Kbytes]: 2247.25
 ------

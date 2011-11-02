@@ -9,6 +9,7 @@ BEGIN {
 	dropados = 0;
 	count = 0;
 	count_jitter = 0;
+	recvdSize = 0;
 }
 
 {
@@ -19,6 +20,7 @@ BEGIN {
 	time = $2;
 	flow_id = $8;
 	packet_id = $12;
+
 	# Discrimina monitoramento por fluxo
 	if ( flow_id == FID ) {
 		if ( packet_id > highest_packet_id ) highest_packet_id = packet_id;
@@ -37,6 +39,7 @@ BEGIN {
 				hop[packet_id] = (hop[packet_id] + 1);
 				end_time[packet_id] = time;
 				size[packet_id] = $6;
+				recvdSize += $6;
 			}
 		}
 	}
@@ -65,5 +68,6 @@ END {
 		}
 	}
 	# Delay_total  delay_medio jitter_medio num_perdas %_perdas
-	printf("Numero Total de Pacotes: %i\nDelay Total: %.2f\nDelay Médio: %.2f\nJitter Médio: %.2f\nNúmero de Pacotes Perdidos: %i\nPorcentagem Pacotes Perdidos: %.2f\n",highest_packet_id, delay_total, delay_total/highest_packet_id, count_jitter/highest_packet_id, dropados, dropados/highest_packet_id);
+	
+	printf("Numero Total de Pacotes: %i\nDelay Total: %.2f\nDelay Médio: %.2f\nJitter Médio: %.2f\nNúmero de Pacotes Perdidos: %i\nPorcentagem Pacotes Perdidos: %.2f\nTaxa Transmissão[kbps]: %.2f\nQuantidade Total de Informação[Kbytes]: %.2f\n",highest_packet_id, delay_total, delay_total/highest_packet_id, count_jitter/highest_packet_id, dropados, dropados/highest_packet_id, ((recvdSize * 8) /1000) / time, recvdSize/1024);
 }

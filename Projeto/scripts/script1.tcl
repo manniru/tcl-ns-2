@@ -13,7 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 725
+set packetSize 512
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -58,6 +58,8 @@ proc finish {} {
 #	close $nf
 	close $tr
 	
+#	global sink
+#	puts "[expr 8 * [$sink set bytes_] / 40000]"
 	#Executa animador
 #	exec nam out.nam &
 	exit 0

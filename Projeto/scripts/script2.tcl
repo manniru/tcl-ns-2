@@ -13,7 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 512
+set packetSize 1024
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -28,7 +28,7 @@ set packetSize 512
 # cbrPacketSize: Tamanho dos pacotes
 # maxPackets: Numero maximo de pacotes gerados pela fonte (FTP)
 
-#set rate 448kb
+set rate 5000kb
 #set interval 0.005
 #set cbrPacketSize 500
 #set maxPackets 10000
@@ -57,7 +57,7 @@ proc finish {} {
 	
 #	close $nf
 	close $tr
-	
+
 	#Executa animador
 #	exec nam out.nam &
 	exit 0
@@ -103,7 +103,7 @@ $ns connect $udp $recv
 set cbr [new Application/Traffic/CBR]
 $cbr attach-agent $udp
 $cbr set type_ CBR
-#$cbr set rate_ $rate
+$cbr set rate_ $rate
 #$cbr set interval_ $interval
 $cbr set packetSize_ $packetSize
 
