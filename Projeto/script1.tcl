@@ -13,12 +13,12 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 1024
-set ttl 32
-set windowSize 20
-set cwnd 0
-set windowInit 1
-set maxBurst 10
+set packetSize 512
+#set ttl 32
+#set windowSize 10
+#set cwnd 0
+#set windowInit 1
+#set maxBurst 10
 
 
 # Parametros Camada Aplicacao
@@ -42,18 +42,17 @@ $ns color 2 Red
 
 #Trace file
 set tr [open out.tr w]
-#set nf [open out.nam w]
+$ns trace-all $tr
 
 # diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
-# $ns namtrace-all file-descriptor
-$ns trace-all $tr
+#set nf [open out.nam w]
 #$ns namtrace-all $nf
 
 
 #Finish procedure
 proc finish {} {
 	global ns tr
-#	global nf
+	global nf
 	$ns flush-trace
 	
 #	close $nf
@@ -80,21 +79,24 @@ proc finish {} {
 set n0 [$ns node]
 set n1 [$ns node]
 set n2 [$ns node]
+set n3 [$ns node]
 
 #Create links ($ns duplex-link node1 node2 bandwidth delay queue-type)
-$ns duplex-link $n0 $n1 2Mb 10ms DropTail
+$ns duplex-link $n0 $n1 2.0Mb 10ms DropTail
 $ns duplex-link $n1 $n2 1.7Mb 20ms DropTail
-
+$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail
 
 $ns duplex-link-op $n0 $n1 orient right-down
 $ns duplex-link-op $n1 $n2 orient right
-
+$ns duplex-link-op $n2 $n3 orient right
 
 #Tamanho da Fila (n1-n2) ($ns queue-limit node1 node2 number)
 $ns queue-limit $n1 $n2 10
+$ns queue-limit $n2 $n3 10
 
 #Monitor da fila (n2-n3)
 $ns duplex-link-op $n1 $n2 queuePos 0.5
+$ns duplex-link-op $n2 $n3 queuePos 0.5
 
 #Setup TCP
 set tcp [new Agent/TCP]
@@ -102,17 +104,17 @@ set tcp [new Agent/TCP]
 $tcp set class_ 2
 $tcp set fid_ 1
 $tcp set packetSize_ $packetSize
-$tcp set ttl_ $ttl
-$tcp set window_ $windowSize
-$tcp set cwnd_ $cwnd
-$tcp set windowInit_ $windowInit
-$tcp set maxburst_ $maxBurst
+#$tcp set ttl_ $ttl
+#$tcp set window_ $windowSize
+#$tcp set cwnd_ $cwnd
+#$tcp set windowInit_ $windowInit
+#$tcp set maxburst_ $maxBurst
 
 $ns attach-agent $n0 $tcp
 #Agente n3 (receiver)
 set sink [new Agent/TCPSink]
 # $ns attach-agent node agent
-$ns attach-agent $n2 $sink
+$ns attach-agent $n3 $sink
 #Conexao entre eles ($ns connect agent1 agent2)
 $ns connect $tcp $sink
 
@@ -126,14 +128,14 @@ $ftp set maxpkts_ $maxPackets
 
 #Programando eventos
 $ns at 0.1 "$ftp start"
-$ns at 40.0 "$ftp stop"
+$ns at 0.2 "$ftp stop"
 
 
 #desligar agentes Tcp e Sink
-$ns at 40.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n2 $sink"
+$ns at 0.2 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink"
 
 #chamar metodo finish
-$ns at 45 "finish"
+$ns at 0.2 "finish"
 
 #Executar simulacao
 $ns run

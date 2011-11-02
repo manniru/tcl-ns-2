@@ -13,7 +13,7 @@
 # windowInit: Janela inicial de congestionamento TCP
 # maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
 
-set packetSize 2048
+set packetSize 512
 #set ttl 32
 #set windowSize 10
 #set cwnd 0
@@ -45,21 +45,21 @@ set tr [open out.tr w]
 $ns trace-all $tr
 
 # diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
-#set nf [open out.nam w]
-#$ns namtrace-all $nf
+set nf [open out.nam w]
+$ns namtrace-all $nf
 
 
 #Finish procedure
 proc finish {} {
 	global ns tr
-#	global nf
+	global nf
 	$ns flush-trace
 	
-#	close $nf
+	close $nf
 	close $tr
 	
 	#Executa animador
-#	exec nam out.nam &
+	exec nam out.nam &
 	exit 0
 }
 

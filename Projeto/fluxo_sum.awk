@@ -48,23 +48,22 @@ END {
 		if ( start < end ) {
 			# Resolve número de saltos
 			hops = (hop[packet_id] - 1);
-			delay_total = delay_total + delay;
 			# Resolve delay e jitter
 			old_delay = delay;
 			delay = 0;
 			jitter = 0;
 			delay = end - start;
+			delay_total = delay_total + delay;
 			if ( delay > old_delay ) {
 				jitter = delay - old_delay;
 			} else {
 				jitter = old_delay - delay;
 			}
-			count++;
 			count_jitter += jitter;
 			# Colunas impressas no arquivo de saída
 			# printf("%f %f %f %f %s %i %i %i %i %i %i\n", end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados);
 		}
 	}
 	# Delay_total  delay_medio jitter_medio num_perdas %_perdas
-	printf("Numero Total de Pacotes: %i\nDelay Total: %.2f\nDelay Médio: %.2f\nJitter Médio: %.2f\nNúmero de Pacotes Perdidos: %i\nPorcentagem Pacotes Perdidos: %.2f\n",highest_packet_id, delay_total, delay_total/count, count_jitter/count, dropados, dropados/highest_packet_id);
+	printf("Numero Total de Pacotes: %i\nDelay Total: %.2f\nDelay Médio: %.2f\nJitter Médio: %.2f\nNúmero de Pacotes Perdidos: %i\nPorcentagem Pacotes Perdidos: %.2f\n",highest_packet_id, delay_total, delay_total/highest_packet_id, count_jitter/highest_packet_id, dropados, dropados/highest_packet_id);
 }

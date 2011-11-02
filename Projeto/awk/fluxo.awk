@@ -50,12 +50,12 @@ END {
 		if ( start < end ) {
 			# Resolve número de saltos
 			hops = (hop[packet_id] - 1);
-			delay_total = delay_total + delay;
 			# Resolve delay e jitter
 			old_delay = delay;
 			delay = 0;
 			jitter = 0;
 			delay = end - start;
+            delay_total = delay_total + delay;
 			if ( delay > old_delay ) {
 				jitter = delay - old_delay;
 			} else {

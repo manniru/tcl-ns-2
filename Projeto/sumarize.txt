@@ -1,86 +1,14 @@
-Numero Total de Pacotes: 5935
-Delay Total: 193.75
-Delay Médio: 0.03
-Jitter Médio: 0.00
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 2465.14
-Quantidade Total de Informação[Kbytes]: 2971.00
-------
-Numero Total de Pacotes: 5371
-Delay Total: 193.69
-Delay Médio: 0.04
-Jitter Médio: 0.01
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 2231.09
-Quantidade Total de Informação[Kbytes]: 2691.00
-------
-Numero Total de Pacotes: 3875
-Delay Total: 193.67
-Delay Médio: 0.05
-Jitter Médio: 0.04
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 3215.04
-Quantidade Total de Informação[Kbytes]: 3888.00
-------
-Numero Total de Pacotes: 2379
-Delay Total: 130.66
-Delay Médio: 0.06
-Jitter Médio: 0.04
-Número de Pacotes Perdidos: 6
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 2960.50
-Quantidade Total de Informação[Kbytes]: 3585.00
-------
-Numero Total de Pacotes: 1784
-Delay Total: 116.18
-Delay Médio: 0.07
-Jitter Médio: 0.06
-Número de Pacotes Perdidos: 13
-Porcentagem Pacotes Perdidos: 0.01
-Taxa de Transmissão Média[kbps]: 2960.55
-Quantidade Total de Informação[Kbytes]: 3582.00
-------
-Numero Total de Pacotes: 1082
-Delay Total: 37.28
-Delay Médio: 0.03
-Jitter Médio: 0.00
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 893.72
-Quantidade Total de Informação[Kbytes]: 1083.00
-------
-Numero Total de Pacotes: 764
-Delay Total: 27.74
+Numero Total de Pacotes: 812
+Delay Total: 34.08
 Delay Médio: 0.04
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0
 Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 631.27
-Quantidade Total de Informação[Kbytes]: 765.00
-------
-Numero Total de Pacotes: 1083
-Delay Total: 41.98
-Delay Médio: 0.04
-Jitter Médio: 0.00
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 447.08
+Taxa de Transmissão Média[kbps]: 447.69
 Quantidade Total de Informação[Kbytes]: 542.00
 ------
-Numero Total de Pacotes: 739
-Delay Total: 29.47
-Delay Médio: 0.04
-Jitter Médio: 0.00
-Número de Pacotes Perdidos: 0
-Porcentagem Pacotes Perdidos: 0.00
-Taxa de Transmissão Média[kbps]: 305.47
-Quantidade Total de Informação[Kbytes]: 370.00
-------
 Numero Total de Pacotes: 812
-Delay Total: 34.04
+Delay Total: 34.08
 Delay Médio: 0.04
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0

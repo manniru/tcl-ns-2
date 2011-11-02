@@ -1,5 +1,5 @@
 Numero Total de Pacotes: 812
-Delay Total: 34.04
+Delay Total: 34.08
 Delay Médio: 0.04
 Jitter Médio: 0.00
 Número de Pacotes Perdidos: 0

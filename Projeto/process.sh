@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm out*
+#rm out*
 ns scripts/script2.tcl
 clear
 #echo Número Total de Pacotes Enviados `cat out.tr | grep ^+ | wc -l` > report.txt
