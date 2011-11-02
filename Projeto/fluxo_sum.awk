@@ -3,14 +3,12 @@
 #
 # exemplo:
 # awk -f fluxo.awk -v FID=1 out.tr > fluxo.tr
-#
-# Dados: end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id
-# 
-#
 BEGIN {
 	highest_packet_id = 0;
 	delay_total = 0;
 	dropados = 0;
+	count = 0;
+	count_jitter = 0;
 }
 
 {
@@ -31,7 +29,7 @@ BEGIN {
 		}
 		# Ignora pacotes dropados
 		if ( action == "d" ) {
-		dropados++;
+			dropados++;
 		end_time[packet_id] = -1;
 		# Inicializa principais vetores
 		} else {
@@ -61,8 +59,12 @@ END {
 			} else {
 				jitter = old_delay - delay;
 			}
+			count++;
+			count_jitter += jitter;
 			# Colunas impressas no arquivo de saída
-			printf("%f %f %f %f %s %i %i %i %i %i %i\n", end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados);
+			# printf("%f %f %f %f %s %i %i %i %i %i %i\n", end, delay, jitter, delay_total, start, service[packet_id], size[packet_id], fid[packet_id], hops, packet_id, dropados);
 		}
 	}
+	# Delay_total  delay_medio jitter_medio num_perdas %_perdas
+	printf("Numero Total de Pacotes: %i\nDelay Total: %.2f\nDelay Médio: %.2f\nJitter Médio: %.2f\nNúmero de Pacotes Perdidos: %i\nPorcentagem Pacotes Perdidos: %.2f\n",highest_packet_id, delay_total, delay_total/count, count_jitter/count, dropados, dropados/highest_packet_id);
 }

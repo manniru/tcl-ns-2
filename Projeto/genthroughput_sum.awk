@@ -29,10 +29,8 @@ BEGIN {
        # Store received packet's size
        recvdSize += pkt_size
        }
-      id += 1
-      printf("%i, %.2f\n",id, (recvdSize/(stopTime-startTime))*(8/1000))
   }
    
   END {
-      # printf("Average Throughput[kbps] = %.2f\t\t StartTime=%.2f\tStopTime=%.2f\n",(recvdSize/(stopTime-startTime))*(8/1000),startTime,stopTime)
+      printf("Taxa de Transmissão Média[kbps]: %.2f\nQuantidade Total de Informação[Kbytes]: %.2f\n",(recvdSize/(stopTime-startTime))*(8/1000), recvdSize/1024);
   }
