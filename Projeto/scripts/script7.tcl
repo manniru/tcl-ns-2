@@ -28,7 +28,8 @@ set windowInit 1
 # cbrPacketSize: Tamanho dos pacotes
 # maxPackets: Numero maximo de pacotes gerados pela fonte (FTP)
 
-set cbrPacketSize 1024
+set cbrPacketSize 2048
+set maxPackets 10000
 
 # Cria um objeto simulator
 set ns [new Simulator]
@@ -40,26 +41,26 @@ $ns color 2 Red
 
 #Trace file
 set tr [open out.tr w]
-set nf [open out.nam w]
+#set nf [open out.nam w]
 
 # diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
-$ns namtrace-all file-descriptor
+#$ns namtrace-all file-descriptor
 $ns trace-all $tr
-$ns namtrace-all $nf
+#$ns namtrace-all $nf
 
 
 
 #Finish procedure
 proc finish {} {
 	global ns tr sink
-	global nf
+#	global nf
 	$ns flush-trace
 	puts "Taxa = [$sink set bytes_]"
-	close $nf
+#	close $nf
 	close $tr
 	
 	#Executa animador
-	exec nam out.nam &
+#	exec nam out.nam &
 	exit 0
 }
 
@@ -150,13 +151,13 @@ set cbr [new Application/Traffic/CBR]
 $cbr attach-agent $udp
 $cbr set type_ CBR
 $cbr set packetSize_ $cbrPacketSize
-$cbr set rate_ 2mb
+$cbr set rate_ 1mb
 
 #Programando eventos
-$ns at 5.0 "$cbr start"
+$ns at 10.0 "$cbr start"
 $ns at 1.0 "$ftp start"
-$ns at 50.0 "$ftp stop"
-$ns at 30.0 "$cbr stop"
+$ns at 60.0 "$ftp stop"
+$ns at 50.0 "$cbr stop"
 
 #desligar agentes Tcp e Sink
 $ns at 70.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink"

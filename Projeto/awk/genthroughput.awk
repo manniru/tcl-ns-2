@@ -33,11 +33,12 @@ BEGIN {
        }
      # id += 1
      
-       if(stopTime-startTime > 0){
+     
+       #if(stopTime-startTime > 0){
  		printf("%.4f, %.2f\n",time, (recvdSize/(stopTime-startTime))*(8/1000))
-       } else {
-         printf("%.4f, %.2f\n",time, 0)
-       }
+    #   } else {
+     #    printf("%.4f, %.2f\n",time, 0)
+      # }
   }
    
   END {
