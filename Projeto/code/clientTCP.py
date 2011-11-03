@@ -6,20 +6,25 @@
 # Client side
 
 import socket
+import datetime
 
-HOST = 'localhost'
+HOST = '192.168.1.101'
 PORT = 50507
 connected = True
-while connected:
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.connect((HOST, PORT))
-	msg = raw_input('\nDigite a operacao \n')
-	if (msg == 'close'):
-		print 'Connection Closed'
-		s.close()
-		connected = False
-	else:
+
+for i in range(33,100):
+	time_array = []
+	arq = open('epoch'+str(i), 'w')
+	for k in range(10000):
+		start = datetime.datetime.now().microsecond
+		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		s.connect((HOST, PORT))
+		msg = 'ACK'
 		s.send(msg)
 		data = s.recv(1024)
-		print 'Result: ', repr(data)
-		s.close()
+		time_array.append(datetime.datetime.now().microsecond - start) #RTT
+	print str(i)
+	for j in range(len(time_array)):
+		arq.write(str(j)+ " " + str(time_array[j]) + '\n')
+	arq.close()
+s.close()

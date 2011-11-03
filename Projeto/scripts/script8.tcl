@@ -4,168 +4,102 @@
 # Redes de Computadores - 2011.2
 
 
-# Parametros Camada Transporte
-#
-# packetSize: Tamanho pacote (TCP e UDP)
-# ttl: Time-to-live (TCP e UDP)
-# windowSize: Janela de conexao TCP (Numero de pacotes)
-# cwnd: Janela de congestionamento TCP (Numero de pacotes)
-# windowInit: Janela inicial de congestionamento TCP
-# maxBurst: Numero maximo de pacotes que o emissor pode enviar ao responder a um ACK
-
-set packetSize 1024
-
-set ttl 32
-set windowSize 20
-set cwnd 0
-set windowInit 1
-#set maxBurst 10
-
-# Parametros Camada Aplicacao
-#
-# rate: Taxa de envio de pacotes (CBR - Constant Bit Rate)
-# interval: Intervalo de envio dos pacotes
-# cbrPacketSize: Tamanho dos pacotes
-# maxPackets: Numero maximo de pacotes gerados pela fonte (FTP)
-
-set cbrPacketSize 1024
-
-# Cria um objeto simulator
 set ns [new Simulator]
 
 
-# Cores para os fluxos de dados ($ns color fid color) - fid: id do fluxo
+set f [open out.tr w]
+$ns trace-all $f
+set nf [open out.nam w]
+$ns namtrace-all $nf
+
 $ns color 1 Blue
 $ns color 2 Red
 
-#Trace file
-set tr [open out.tr w]
-set nf [open out.nam w]
 
-# diz ao simulador para gravar os caminhos da simulação no formato de entrada do NAM
-$ns namtrace-all file-descriptor
-$ns trace-all $tr
-$ns namtrace-all $nf
-
-
-
-#Finish procedure
 proc finish {} {
-	global ns tr sink
-	global nf
-	$ns flush-trace
-	puts "Taxa = [$sink set bytes_]"
-	close $nf
-	close $tr
-	
-	#Executa animador
-	exec nam out.nam &
-	exit 0
+  global ns f nf qmon1 qmon2 qmon3
+  $ns flush-trace
+  close $f
+  close $nf
+
+  puts "r1 drops = [$qmon1 set pdrops_]"
+  puts "r1 arrivals = [$qmon1 set parrivals_]"
+  puts "s3(tahoe) arrivals = [$qmon2 set parrivals_]"
+  puts "s4(reno ) arrivals = [$qmon3 set parrivals_]"
+
+  exec nam out.nam &
+  exit 0
 }
 
-
-# Topology		   (null)
-#               n0 (tcp) (ftp)          
-# 2mbps, 10ms    \                      
-#                 \     1.5 mbps, 20ms      (null) - Receiver UDP
-#                 n2 ----------------- n3  (sink) - Receiver TCP
-# 2mbps, 10ms     /					   
-#                /						
-#               n1 						
-#             (udp) (cbr) pkt size: 1kbyte, rate 500kbps, interval 0.005
-#
-#           +ftp                           -ftp
-#    +cbr                                        -cbr
-#  +--------+---------+----------+---------+-----+----+ 
-#  0        10       20         30        40    45   50
+# ******  ******
+#        s1                    s4
+#          \                  /
+#  1Mb,10ms \   0.2Mb,10ms   / 1Mb,10ms
+#            r1 ---------- r2
+#  1Mb,10ms /                \ 1Mb,10ms
+#          /                  \
+#        s2                    s3
 
 
-#Create four nodes
-set n0 [$ns node]
-set n1 [$ns node]
-set n2 [$ns node]
-set n3 [$ns node]
+set s1 [$ns node]
+set s2 [$ns node]
+set s3 [$ns node]
+set s4 [$ns node]
 
-#Create links between the nodes
-$ns duplex-link $n0 $n2 2Mb 10ms DropTail
-$ns duplex-link $n1 $n2 2Mb 10ms DropTail
-$ns duplex-link $n2 $n3 1.7Mb 20ms DropTail
+set r1 [$ns node]
+set r2 [$ns node]
 
-#Set Queue Size of link (n2-n3) to 10
-$ns queue-limit $n2 $n3 10
+$ns duplex-link $s1 $r1 1Mb 10ms DropTail
+$ns duplex-link $s2 $r1 1Mb 10ms DropTail
+set L [$ns duplex-link $r1 $r2 200Kb 10ms SFQ]
+$ns duplex-link $r2 $s4 1Mb 10ms DropTail
+$ns duplex-link $r2 $s3 1Mb 10ms DropTail
 
-#Give node position (for NAM)
-$ns duplex-link-op $n0 $n2 orient right-down
-$ns duplex-link-op $n1 $n2 orient right-up
-$ns duplex-link-op $n2 $n3 orient right
+set qmon1 [$ns monitor-queue $r1 $r2 0]
+set qmon2 [$ns monitor-queue $r2 $s3 0]
+set qmon3 [$ns monitor-queue $r2 $s4 0]
 
-#Monitor the queue for link (n2-n3). (for NAM)
-$ns duplex-link-op $n2 $n3 queuePos 0.5
+#******animation******
+$ns duplex-link-op $s1 $r1 orient right-down
+$ns duplex-link-op $s2 $r1 orient right-up
+$ns duplex-link-op $r1 $r2 orient right
+$ns duplex-link-op $r2 $s4 orient right-up
+$ns duplex-link-op $r2 $s3 orient right-down
 
-#Setup TCP
-set tcp [new Agent/TCP]
+$ns duplex-link-op $r1 $r2 queuePos 0.5
 
-$tcp set class_ 2
-$tcp set fid_ 1
-$tcp set packetSize_ $packetSize
-#$tcp set ttl_ $ttl
-$tcp set window_ $windowSize
-#$tcp set cwnd_ $cwnd
-$tcp set windowInit_ $windowInit
-#$tcp set maxburst_ $maxBurst
-
-$ns attach-agent $n0 $tcp
-#Agente n3 (receiver)
-set sink [new Agent/TCPSink]
-# $ns attach-agent node agent
-$ns attach-agent $n3 $sink
-#Conexao entre eles ($ns connect agent1 agent2)
-$ns connect $tcp $sink
-
-#Setup UDP 
-set udp [new Agent/UDP]
-$ns attach-agent $n1 $udp
-
-set null [new Agent/Null]
-$ns attach-agent $n3 $null
-
-#Conxao entre eles
-$ns connect $udp $null
-$udp set fid_ 2
-$udp set packetSize_ $cbrPacketSize
-#$udp set ttl_ $ttl
+set window 15
+set packet_size 555
 
 
+set tcp1 [new Agent/TCP/Reno]
+$ns attach-agent $s1 $tcp1
+set sink1 [new Agent/TCPSink]
+$ns attach-agent $s3 $sink1
+$ns connect $tcp1 $sink1
 
-#Application
+$tcp1 set fid_ 1
+$tcp1 set window_ $window
+$tcp1 set packetSize_ $packet_size
 
-#Setup FTP over TCP
-set ftp [new Application/FTP]
-$ftp attach-agent $tcp
-$ftp set type_ FTP
-#$ftp set maxpkts_ $maxPackets
+set ftp1 [new Application/FTP]
+$ftp1 attach-agent $tcp1
 
-#Setup CBR(Constant bit-rate)  over UDP
-set cbr [new Application/Traffic/CBR]
-$cbr attach-agent $udp
-$cbr set type_ CBR
-$cbr set packetSize_ $cbrPacketSize
-$cbr set rate_ 2mb
+set tcp2 [new Agent/TCP]
+$ns attach-agent $s2 $tcp2
+set sink2 [new Agent/TCPSink]
+$ns attach-agent $s4 $sink2
+$ns connect $tcp2 $sink2
 
-#Programando eventos
-$ns at 5.0 "$cbr start"
-$ns at 1.0 "$ftp start"
-$ns at 50.0 "$ftp stop"
-$ns at 30.0 "$cbr stop"
+$tcp2 set fid_ 2
+$tcp2 set window_ $window
+$tcp2 set packetSize_ $packet_size
 
-#desligar agentes Tcp e Sink
-$ns at 70.0 "$ns detach-agent $n0 $tcp ; $ns detach-agent $n3 $sink"
+set ftp2 [new Application/FTP]
+$ftp2 attach-agent $tcp2
 
-#chamar metodo finish
-$ns at 70 "finish"
+$ns at 0.0 "$ftp1 start"
+$ns at 0.0 "$ftp2 start"
+$ns at 10.0 "finish"
 
-puts "RATIO = [$cbr set rate_]"
-puts "RATIO = [$cbr set packetSize_]"
-
-#Executar simulacao
 $ns run

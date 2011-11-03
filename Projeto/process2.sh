@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-ns ns-simple.tcl 
+ns script8.tcl 
 
 awk '{if($8 == 1) print $0 }' out.tr > out1.tr
 awk '{if($8 == 2) print $0 }' out.tr > out2.tr
